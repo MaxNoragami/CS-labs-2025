@@ -1,20 +1,49 @@
-﻿using lab1.Utils;
+﻿using lab1.Enums;
+using lab1.Utils;
 
-// 1.1
-var key = new Key(10);
-var permutationsKey = new PermutationsKey("VICTOR");
-var cipher = new Text("VMBGVMZQBQG");
+do
+{
+    Console.WriteLine("---- Lab 1 ----");
+    Console.WriteLine("Ctrl+C to exit");
 
-if (!key.IsValid())
-    throw new Exception("Invalid key!");
-if (!permutationsKey.IsValid())
-    throw new Exception("Invalid permutation key!");
-if (!cipher.IsValid())
-    throw new Exception("Invalid text!");
+    Console.Write("\nShift Key (1 to 25 inclusive): ");
+    Key key = Input.GetKey();
 
-var message = CaesarCipher.Decrypt(cipher, key, permutationsKey);
-Console.WriteLine(message.Value);
+    PermutationsKey? permutationsKey = null;
 
-var newCipher = CaesarCipher.Encrypt(message, key, permutationsKey);
-Console.WriteLine(newCipher.Value);
-Console.WriteLine(newCipher.Value.Equals(cipher.Value, StringComparison.OrdinalIgnoreCase));
+    Console.WriteLine("\nCipher Algorithms:\n0. Caesar Cipher\n1. Caesar Cipher + permutations");
+    Console.Write("Algo Choice (0 OR 1): ");
+    var algoChoice = Input.GetBinaryChoice<AlgoChoice>();
+
+    if (algoChoice == AlgoChoice.CAESAR_2KEY)
+    {
+        Console.Write("\nPermutations Key (length >= 7): ");
+        permutationsKey = Input.GetPermutationsKey();
+    }
+        
+    Console.WriteLine("\nOperation Types:\n0. Encryption\n1. Decryption");
+    Console.Write("Operation Choice (0 OR 1): ");
+    var operationChoice = Input.GetBinaryChoice<OperationChoice>();
+
+    switch (operationChoice)
+    {
+        case OperationChoice.ENCRYPT:
+            Console.Write("\nMessage (A-Za-z): ");
+            var message = Input.GetText();
+            Console.WriteLine("Encrypted: {0}", 
+                CaesarCipher.Encrypt(message, key, permutationsKey).Value);
+            break;
+        case OperationChoice.DECRYPT:
+            Console.Write("\nCipher (A-Za-z): ");
+            var cipher = Input.GetText();
+            Console.WriteLine("Decrypted: {0}", 
+                CaesarCipher.Decrypt(cipher, key, permutationsKey).Value);
+            break;
+        default:
+            Console.WriteLine("! Wrong OperationChoice");
+            break;
+    }
+
+    Console.ReadLine();
+    
+} while (true);
