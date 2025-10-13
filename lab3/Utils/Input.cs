@@ -36,20 +36,29 @@ public static class Input
         return key;
     }
 
-    public static Text GetText()
+    public static Text GetText(OperationChoice operation)
     {
-        Console.WriteLine("\nText must contain chars from the Romanian alphabet (A-Za-z).");
+        var textType = operation == OperationChoice.ENCRYPT ? "Message" : "Cipher";
+
+        Console.WriteLine($"\n{textType} must contain chars from the Romanian alphabet (A-Za-z).");
 
         Text text = new Text("");
         var isInputTextValid = false;
+
         do
         {
-            Console.Write("> Text: ");
+            Console.Write($"> {textType}: ");
             var inputText = Console.ReadLine();
 
             if (string.IsNullOrWhiteSpace(inputText))
             {
-                Console.WriteLine("! Text must be a non empty string");
+                Console.WriteLine($"! {textType} must be a non empty string");
+                continue;
+            }
+
+            if (operation == OperationChoice.DECRYPT && inputText.Length % 2 != 0)
+            {
+                Console.WriteLine($"! {textType} for decryption must have an even amount of chars");
                 continue;
             }
 
@@ -57,7 +66,7 @@ public static class Input
 
             if (!text.IsValid())
             {
-                Console.WriteLine("! Text must contain chars from the Romanian alphabet (A-Za-z)");
+                Console.WriteLine($"! {textType} must contain chars from the Romanian alphabet (A-Za-z)");
                 continue;
             }
 

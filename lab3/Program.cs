@@ -1,4 +1,5 @@
 ﻿using lab3.Enums;
+using lab3.PlayfairCipher;
 using lab3.Utils;
 using System.Text;
 
@@ -12,7 +13,7 @@ do
 
     var operation = Input.GetOperationChoice();
     var key = Input.GetKey();
-    var text = Input.GetText();
+    var text = Input.GetText(operation);
 
     Console.WriteLine($"\n- Key: {key.Value}\n- Text: {text.Value}");
 
