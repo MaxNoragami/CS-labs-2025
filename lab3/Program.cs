@@ -1,17 +1,36 @@
-﻿// - Romanian Language based
-// - In case of a text with values that don't match the alphabet the correct set of values are shown
-// - Key length no shorter than 7
-// - Has option of choosing either the encryption or decryption operations
-// - Input: Operation + Key + Message/Cipher
-// * Make input generic if I feel like it
-
+﻿using lab3.Enums;
 using lab3.Utils;
 using System.Text;
 
 Console.OutputEncoding = Encoding.UTF8;
 Console.InputEncoding = Encoding.UTF8;
 
-var key = Input.GetKey();
-var text = Input.GetText();
+do
+{
+    Console.WriteLine("---- Lab 3 - Playfair Cipher----");
+    Console.WriteLine("Ctrl+C to exit\n");
 
-Console.WriteLine($"Key: {key.Value}\nText: {text.Value}");
+    var operation = Input.GetOperationChoice();
+    var key = Input.GetKey();
+    var text = Input.GetText();
+
+    Console.WriteLine($"\n- Key: {key.Value}\n- Text: {text.Value}");
+
+    switch (operation)
+    {
+        case OperationChoice.ENCRYPT:
+            Console.WriteLine("+ Encrypted: {0}\n", 
+                Playfair.Encrypt(text, key).Value);
+            break;
+        case OperationChoice.DECRYPT:
+            Console.WriteLine("+ Decrypted: {0}\n", 
+                Playfair.Decrypt(text, key).Value);
+            break;
+        default:
+            Console.WriteLine("! Unknown choice");
+            break;
+    }
+
+    Console.ReadLine();
+
+} while (true);

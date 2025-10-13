@@ -1,16 +1,18 @@
-﻿namespace lab3.Utils;
+﻿using lab3.Enums;
+
+namespace lab3.Utils;
 
 public static class Input
 {
     public static Key GetKey()
     {
-        Console.WriteLine("Key must be >= 7 and only contain chars from the Romanian alphabet.");
+        Console.WriteLine("\nKey must be >= 7 and only contain chars from the Romanian alphabet.");
 
         Key key = new Key("");
         var isInputKeyValid = false;
         do
         {
-            Console.Write("Key:");
+            Console.Write("> Key: ");
             var inputKey = Console.ReadLine();
 
             if (string.IsNullOrWhiteSpace(inputKey))
@@ -36,13 +38,13 @@ public static class Input
 
     public static Text GetText()
     {
-        Console.WriteLine("Text must contain chars from the Romanian alphabet (A-Za-z).");
+        Console.WriteLine("\nText must contain chars from the Romanian alphabet (A-Za-z).");
 
         Text text = new Text("");
         var isInputTextValid = false;
         do
         {
-            Console.Write("Text:");
+            Console.Write("> Text: ");
             var inputText = Console.ReadLine();
 
             if (string.IsNullOrWhiteSpace(inputText))
@@ -64,5 +66,37 @@ public static class Input
         } while (!isInputTextValid);
 
         return text;
+    }
+
+    public static OperationChoice GetOperationChoice()
+    {
+        Console.WriteLine("Operation choice must be either:\n0 - Encryption;\n1 - Decryption.");
+
+        var choice = -1;
+        var isInputChoiceValid = false;
+        do
+        {
+            Console.Write("> Choice: ");
+            var inputChoice = Console.ReadLine();
+
+            if (string.IsNullOrWhiteSpace(inputChoice))
+            {
+                Console.WriteLine("! Choice must be a non empty string");
+                continue;
+            }
+
+            var isChoiceInt = int.TryParse(inputChoice, out choice);
+
+            if (!isChoiceInt || !(choice == 0 || choice == 1))
+            {
+                Console.WriteLine("! Choice must be a numeric value, either 0 - Encryption OR 1 - Decryption");
+                continue;
+            }
+
+            isInputChoiceValid = true;
+
+        } while (!isInputChoiceValid);
+
+        return (OperationChoice) choice;
     }
 }
