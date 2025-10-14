@@ -7,7 +7,7 @@ public static class Alphabet
     public static string FormNewAlphabet(Key key)
     {
         var newAlphabet = new List<char>();
-        var keyAndAlphabet = key.Value + Value;
+        var keyAndAlphabet = (key.Value + Value).Replace('Î', 'I');
 
         for (int i = 0; i < key.Value.Length + Value.Length; i++)
             if (!newAlphabet.Contains(keyAndAlphabet[i]))

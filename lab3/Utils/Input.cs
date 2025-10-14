@@ -56,17 +56,17 @@ public static class Input
                 continue;
             }
 
-            if (operation == OperationChoice.DECRYPT && inputText.Length % 2 != 0)
-            {
-                Console.WriteLine($"! {textType} for decryption must have an even amount of chars");
-                continue;
-            }
-
             text = new Text(inputText);
 
             if (!text.IsValid())
             {
                 Console.WriteLine($"! {textType} must contain chars from the Romanian alphabet (A-Za-z)");
+                continue;
+            }
+
+            if (operation == OperationChoice.DECRYPT && text.Value.Length % 2 != 0)
+            {
+                Console.WriteLine($"! {textType} for decryption must have an even amount of chars");
                 continue;
             }
 
