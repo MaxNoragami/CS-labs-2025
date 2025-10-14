@@ -1,6 +1,6 @@
 ﻿using lab3.Utils;
-using lab3.Extensions;
 using lab3.Enums;
+using lab3.Extensions;
 
 namespace lab3.PlayfairCipher;
 
@@ -10,15 +10,14 @@ public static class Playfair
 
     public static Text Encrypt(Text message, Key key)
     {
-        // TODO
         var newAlphabet = Alphabet.FormNewAlphabet(key);
-        Console.WriteLine(newAlphabet);
 
-        var matrix = GetMatrix(newAlphabet);
-        PrintMatrix(matrix);
+        var matrixInstance = new Matrix(newAlphabet);
+        var matrix = matrixInstance.Get();
+        Console.WriteLine("\n" + matrixInstance.ToString());
 
         var pairs = GetPairs(MaskDoubles(message));
-        Console.WriteLine(string.Join(' ', pairs));
+        Console.WriteLine($"M: {string.Join(' ', pairs)}");
 
         var encryptedPairs = new List<string>();
         foreach (var pair in pairs)
@@ -37,22 +36,21 @@ public static class Playfair
                 encryptedPairs.Add(DifferentRowsColumnsRule(indexFirst, indexSecond, matrix));
         }
 
-        Console.WriteLine(string.Join(' ', encryptedPairs));
+        Console.WriteLine($"C: {string.Join(' ', encryptedPairs)}\n");
 
         return new Text(string.Join("", encryptedPairs));
     }
 
     public static Text Decrypt(Text cipher, Key key)
     {
-        //TODO
         var newAlphabet = Alphabet.FormNewAlphabet(key);
-        Console.WriteLine(newAlphabet);
 
-        var matrix = GetMatrix(newAlphabet);
-        PrintMatrix(matrix);
+        var matrixInstance = new Matrix(newAlphabet);
+        var matrix = matrixInstance.Get();
+        Console.WriteLine("\n" + matrixInstance.ToString());
 
         var pairs = GetPairs(cipher);
-        Console.WriteLine(string.Join(' ', pairs));
+        Console.WriteLine($"C: {string.Join(' ', pairs)}");
 
         var decryptedPairs = new List<string>();
         foreach (var pair in pairs)
@@ -71,7 +69,7 @@ public static class Playfair
                 decryptedPairs.Add(DifferentRowsColumnsRule(indexFirst, indexSecond, matrix));
         }
 
-        Console.WriteLine(string.Join(' ', decryptedPairs));
+        Console.WriteLine($"M: {string.Join(' ', decryptedPairs)}\n");
 
         return new Text(string.Join("", decryptedPairs));
     }
@@ -137,7 +135,6 @@ public static class Playfair
             var current = message[i];
             var lastPair = maskedMsg.LastOrDefault();
 
-            // In case we got no elements or we gotta start a new pair, we just add current as first
             if (lastPair == null || lastPair.Length == 2)
             {
                 maskedMsg.Add("" + current);
@@ -145,13 +142,13 @@ public static class Playfair
                 continue;
             }
 
-            // Adding second in case lastPair.Length is other than 2
             if (lastPair[0] == current)
             {
                 maskedMsg[^1] += _romanianFreq[^(rareIndex % 3 + 1)];
                 rareIndex += 1;
                 continue;
             }
+
             maskedMsg[^1] += current;
             rareIndex = 0;
             i += 1;
@@ -162,41 +159,6 @@ public static class Playfair
             maskedMsg.Add("" + _romanianFreq[^1]);
 
         return new Text(string.Join("", maskedMsg));
-    }
-
-    private static char[,] GetMatrix(string newAlphabet)
-    {
-        var rows = 5;
-        var columns = 6;
-        var matrix = new char[rows, columns];
-
-        var i = 0;
-        for (int j = 0; j < rows; j++)
-        {
-            for (int k = 0; k < columns; k++)
-            {
-                if (i >= newAlphabet.Length)
-                    break;
-
-                matrix[j, k] = newAlphabet[i];
-                i += 1;
-            }
-            if (i >= newAlphabet.Length)
-                break;
-        }
-
-        return matrix;
-    }
-
-    private static void PrintMatrix(char[,] matrix)
-    {
-        for (int i = 0; i < matrix.GetLength(0); i++)
-        {
-            for (int j = 0; j < matrix.GetLength(1); j++)
-                Console.Write(matrix[i, j] + " ");
-
-            Console.WriteLine();
-        }
     }
 
     private static int Mod(int dividend, int modulus)
