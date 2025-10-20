@@ -2,7 +2,7 @@
 
 public static class Alphabet
 {
-    public static string Value => "AÂĂBCDEFGHIÎJKLMNOPQRSȘTȚUVWXYZ";
+    public static string Value => "AĂÂBCDEFGHIÎJKLMNOPQRSȘTȚUVWXYZ";
 
     public static string FormNewAlphabet(Key key)
     {

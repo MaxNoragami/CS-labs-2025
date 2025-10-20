@@ -4,7 +4,7 @@ namespace lab3.Utils;
 
 public class Text(string value)
 {
-    public string Value => value.ToUpper().Trim().RemoveSpaces();
+    public string Value => value.ToUpper().Trim().Replace('Î', 'I').RemoveSpaces();
 
     public bool IsValid()
     {
