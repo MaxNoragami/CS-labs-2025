@@ -1,1 +1,30 @@
-﻿Console.WriteLine("Hello Lab #4!");
+﻿using lab4.Entities;
+using lab4.Utils;
+using System.Text;
+
+Console.OutputEncoding = Encoding.ASCII;
+Console.InputEncoding = Encoding.ASCII;
+
+do
+{
+    Console.Clear();
+    Console.WriteLine("---- Lab 4 - DES - Get K+ ----");
+    Console.WriteLine("Ctrl+C to exit\n");
+
+    var key = Input.GetKey();
+
+    Console.WriteLine("\n+ PC-1 Table:\n{0}\n", PC1.View());
+
+    var keyHex = new KeyHex().Obtain(key);
+    Console.WriteLine("+ Key Hex: {0}\n", keyHex.View());
+
+    var keyBin = new KeyBin().Obtain(keyHex);
+    Console.WriteLine("+ Key Binary: {0}\n", keyBin.View());
+
+    var keyPlus = new KeyPlus().Obtain(keyBin);
+    Console.WriteLine("+ Key Plus: {0}\n", keyPlus.View());
+
+    Console.WriteLine("------------------------------");
+    Console.ReadLine();
+
+} while (true);
