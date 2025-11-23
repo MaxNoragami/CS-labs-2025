@@ -1,22 +1,26 @@
 #!/bin/bash
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-cd "$SCRIPT_DIR/../pki"
 
 # Sign a document with user's private key
 if [ -z "$1" ] || [ -z "$2" ]; then
-    echo "Usage: ./03_sign_document.sh <username> <document_file>"
-    echo "Example: ./03_sign_document.sh maxim message.txt"
+    echo "Usage: ./sign_document.sh <username> <document_file>"
+    echo "Example: ./sign_document.sh alice document.txt"
     exit 1
 fi
 
 USERNAME=$1
-DOCUMENT=$2
+DOCUMENT="$2"
 
+# Convert document to absolute path before changing directory
 if [ ! -f "$DOCUMENT" ]; then
     echo "Error: Document '$DOCUMENT' not found!"
     exit 1
 fi
+DOCUMENT="$(readlink -f "$DOCUMENT")"
+
+# Now cd to pki directory
+cd "$SCRIPT_DIR/../pki"
 
 if [ ! -f "users/$USERNAME/${USERNAME}-key.pem" ]; then
     echo "Error: Private key for user '$USERNAME' not found!"

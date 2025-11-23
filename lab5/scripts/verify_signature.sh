@@ -1,17 +1,16 @@
 #!/bin/bash
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-cd "$SCRIPT_DIR/../pki"
 
 # Verify a document signature
 if [ -z "$1" ] || [ -z "$2" ]; then
-    echo "Usage: ./04_verify_signature.sh <username> <document_file>"
-    echo "Example: ./04_verify_signature.sh maxim message.txt"
+    echo "Usage: ./verify_signature.sh <username> <document_file>"
+    echo "Example: ./verify_signature.sh alice message.txt"
     exit 1
 fi
 
 USERNAME=$1
-DOCUMENT=$2
+DOCUMENT="$2"
 SIGNATURE_FILE="${DOCUMENT}.sig"
 
 if [ ! -f "$DOCUMENT" ]; then
@@ -23,6 +22,13 @@ if [ ! -f "$SIGNATURE_FILE" ]; then
     echo "Error: Signature file '$SIGNATURE_FILE' not found!"
     exit 1
 fi
+
+# Convert paths to absolute before changing directory
+DOCUMENT="$(readlink -f "$DOCUMENT")"
+SIGNATURE_FILE="$(readlink -f "$SIGNATURE_FILE")"
+
+# Now cd to pki directory
+cd "$SCRIPT_DIR/../pki"
 
 if [ ! -f "users/$USERNAME/${USERNAME}-cert.pem" ]; then
     echo "Error: Certificate for user '$USERNAME' not found!"

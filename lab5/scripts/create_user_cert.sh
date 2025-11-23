@@ -35,7 +35,7 @@ echo ""
 echo "Step 3: CA signing the certificate..."
 # CA signs the CSR to create the certificate
 openssl ca -config ca/openssl-ca.conf \
-           -extensions usr_cert \
+           -extensions v3_user \
            -days 365 \
            -notext \
            -batch \
