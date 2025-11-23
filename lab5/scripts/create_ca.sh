@@ -16,7 +16,7 @@ openssl req -config ca/openssl-ca.conf \
             -days 3650 \
             -key ca/private/ca-key.pem \
             -out ca/certs/ca-cert.pem \
-            -subj "/C=MD/ST=Chisinau/L=Chisinau/O=MyInternalCA/OU=IT/CN=MyRootCA"
+            -subj "/C=MD/ST=Chisinau/L=Chisinau/O=ChillGuysSRL/OU=IT/CN=RootCA"
 
 echo ""
 echo "Step 3: Verifying CA Certificate"
