@@ -48,12 +48,12 @@ prompt              = no
 
 [ req_distinguished_name ]
 # Field descriptions
-countryName                     = Country Name
-stateOrProvinceName             = State or Province Name
-localityName                    = Locality Name
-0.organizationName              = Organization Name
-organizationalUnitName          = Organizational Unit Name
-commonName                      = Common Name
+countryName                     = MD
+stateOrProvinceName             = Chisinau
+localityName                    = Chisinau
+0.organizationName              = ChillGuysSRL
+organizationalUnitName          = IT
+commonName                      = RootCA
 
 [ v3_ca ]
 # Extensions for CA certificate

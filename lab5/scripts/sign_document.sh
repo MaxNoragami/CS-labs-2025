@@ -27,7 +27,7 @@ if [ ! -f "users/$USERNAME/${USERNAME}-key.pem" ]; then
     exit 1
 fi
 
-echo "=== Signing Document: $DOCUMENT ==="
+echo "Signing Document: $DOCUMENT"
 echo "User: $USERNAME"
 echo ""
 
